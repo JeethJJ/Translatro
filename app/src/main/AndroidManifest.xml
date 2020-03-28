@@ -11,7 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Add"></activity>
+        <activity android:name=".Subscriptions"></activity>
+        <activity android:name=".Edit" />
+        <activity android:name=".ViewSentence" />
+        <activity android:name=".Add" />
         <activity android:name=".Home" />
         <activity
             android:name=".MainActivity"

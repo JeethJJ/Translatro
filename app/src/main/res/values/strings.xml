@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Translatro</string>
+    <string name="add_your_text_here">Add your text here :</string>
+    <string name="text">Text</string>
+    <string name="add">Add</string>
+    <string name="add_phrases">Add Phrases</string>
+    <string name="display_phrases">Display Phrases</string>
+    <string name="edit_phrases">Edit Phrases</string>
+    <string name="language_subscription">Language Subscription</string>
+    <string name="translate">Translate</string>
+    <string name="saved_translations">Saved Translations</string>
+    <string name="enter_your_text">Enter your text</string>
+    <string name="all_available_phrases">All available phrases :</string>
+    <string name="ok">OK</string>
+    <string name="edit">Edit</string>
+    <string name="enter_new_phrase">Enter new phrase</string>
+    <string name="save">Save</string>
 </resources>
