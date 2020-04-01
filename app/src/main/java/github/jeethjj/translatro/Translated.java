@@ -33,8 +33,7 @@ public class Translated extends AppCompatActivity {
         new TranslationTask().execute("Hello World and my friend");//translator
         new SynthesisTask().execute("Good morning. How is quarantine?"); //speaker
     }
-
-
+    
     //Translator
     private LanguageTranslator initLanguageTranslatorService() {
         IamAuthenticator authenticator = new IamAuthenticator(getString(R.string.language_translator_apikey));
