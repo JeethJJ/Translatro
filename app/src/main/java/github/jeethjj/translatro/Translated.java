@@ -33,43 +33,6 @@ public class Translated extends AppCompatActivity {
         new TranslationTask().execute("Hello World and my friend");//translator
         new SynthesisTask().execute("Good morning. How is quarantine?"); //speaker
     }
-    
-    //Translator
-    private LanguageTranslator initLanguageTranslatorService() {
-        IamAuthenticator authenticator = new IamAuthenticator(getString(R.string.language_translator_apikey));
-        LanguageTranslator service = new LanguageTranslator("2018-05-01", authenticator);
-        service.setServiceUrl(getString(R.string.language_translator_url));
-        return service;
-    }
 
-    private class TranslationTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            TranslateOptions translateOptions = new TranslateOptions.Builder().addText(params[0]).source(Language.ENGLISH).target("es").build();
-            TranslationResult result = translationService.translate(translateOptions).execute().getResult();
-            String firstTranslation = result.getTranslations().get(0).getTranslation();
-            return firstTranslation;
-        }
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            translated_phrase.setText(s);
-        }
-    }
 
-    //text to speech
-    private TextToSpeech initTextToSpeechService() {
-        Authenticator authenticator = new IamAuthenticator(getString(R.string.text_speech_apikey));
-        TextToSpeech service = new TextToSpeech(authenticator); service.setServiceUrl(getString(R.string.text_speech_url));
-        return service;
-    }
-
-    private class SynthesisTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            SynthesizeOptions synthesizeOptions = new SynthesizeOptions.Builder().text(params[0]) .voice(SynthesizeOptions.Voice.EN_US_LISAVOICE) .accept(HttpMediaType.AUDIO_WAV).build();
-            player.playStream(textService.synthesize(synthesizeOptions).execute().getResult());
-            return "Did synthesize";
-        }
-    }
 }
