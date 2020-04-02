@@ -3,10 +3,13 @@ package github.jeethjj.translatro;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -16,25 +19,47 @@ import java.util.ArrayList;
 public class Edit extends AppCompatActivity {
 
     int selectedPosition = -1;
+    DatabaseHelper db;
+    String edit;
+    boolean clickedEditOnce = false;
+    EditText et;
+    CustomList cl;
+    ArrayList<String> arrayList;
+    Cursor phrases;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+        db=new DatabaseHelper(getApplicationContext());
+        et=findViewById(R.id.editText);
 
         ListView listView = findViewById(R.id.list_edit);
-        ArrayList<String> arrayList = new ArrayList<>();
-        for (int i = 0 ; i < 10; i++){
-            arrayList.add("Item : " + (i));
+        phrases = db.getPhrases();
+        arrayList = new ArrayList<>();
+        while(phrases.moveToNext()){
+            arrayList.add(phrases.getString(1));
         }
-
-        CustomList cl = new CustomList(arrayList);
+        cl = new CustomList(arrayList);
         listView.setAdapter(cl);
     }
 
+    public void edit(View view) {
+        et.setText(edit);
+    }
 
-
-
+    public void save(View view) {
+        String newPhrase = String.valueOf(et.getText());
+        if(!newPhrase.equals(null)  &&  !newPhrase.equals("")){
+            db.updatePhrase(newPhrase,db.getID(edit));
+            phrases = db.getPhrases();
+            arrayList = new ArrayList<>();
+            while(phrases.moveToNext()){
+                arrayList.add(phrases.getString(1));
+            }
+            cl.notifyDataSetChanged();
+        }
+    }
 
     private class CustomList extends BaseAdapter {
 
@@ -71,13 +96,18 @@ public class Edit extends AppCompatActivity {
             radioButton.setTag(position);
 
             final TextView customTextView = (TextView) view.findViewById(R.id.customTextView);
-            customTextView.setText("Position Position Position Position Position Position Position Position");
+            customTextView.setText(allPhrases.get(position));
 
             customCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     selectedPosition = (Integer) v.findViewById(R.id.customRadio).getTag();
                     Toast.makeText(getApplicationContext(), customTextView.getText(), Toast.LENGTH_SHORT).show();
+                    edit= (String) customTextView.getText();
+                    if(clickedEditOnce){
+                        et.setText(edit);
+                    }
+                    clickedEditOnce = true;
                     notifyDataSetChanged();
                 }
             });

@@ -29,10 +29,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTable = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_1 + " ("+COL1+" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL2 +" TEXT )";
+        String createTable1 = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_1 + " ("+COL1+" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL2 +" TEXT UNIQUE)";
         String createTable2 = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_2 + " ("+COL3+" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL4 +" TEXT UNIQUE, " + COL5 +" INTEGER )";
         String createTable3 = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_3 + " ("+COL6+" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL7 +" TEXT , " + COL8 +" TEXT , "+ COL9 +" TEXT )";
-        db.execSQL(createTable);
+        db.execSQL(createTable1);
         db.execSQL(createTable2);
         db.execSQL(createTable3);
         addAllLangsIfNotExist();
@@ -66,12 +66,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public Cursor getID(String phrase){
+    public int getID(String phrase){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + COL1 + " FROM " + TABLE_NAME_1 +
                 " WHERE " + COL2 + " = '" + phrase + "'";
         Cursor data = db.rawQuery(query, null);
-        return data;
+        return data.getInt(0);
     }
 
     public void updatePhrase(String newPhrase, int id){

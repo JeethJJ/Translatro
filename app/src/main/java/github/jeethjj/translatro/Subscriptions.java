@@ -1,6 +1,7 @@
 package github.jeethjj.translatro;
 
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,21 +19,38 @@ import java.util.ArrayList;
 public class Subscriptions extends AppCompatActivity {
 
     ArrayList<String> selectedItems;
-    String[] items={"English","Chinese","French","German","Italian","Khmer"};
+    ArrayList<String> arrayList;
+    ArrayList<Integer> status;
+    DatabaseHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subscriptions);
-        selectedItems=new ArrayList<String>();
+        selectedItems=new ArrayList<>();
+        db= new DatabaseHelper(getApplicationContext());
+        Cursor languages = db.getLangStatus();
 
-        ArrayList<String> arrayList = new ArrayList<>();
-        for (int i = 0 ; i < 10; i++){
-            arrayList.add("Item : " + (i));
+        arrayList = new ArrayList<>();
+        while(languages.moveToNext()){
+            arrayList.add(languages.getString(1));
         }
-        ListView upgrade_list=  findViewById(R.id.list_upgrade);
 
+        status = new ArrayList<>();
+        while(languages.moveToNext()){
+            status.add(languages.getInt(2));
+        }
+
+        ListView upgrade_list=  findViewById(R.id.list_upgrade);
         CustomList cl = new CustomList(arrayList);
         upgrade_list.setAdapter(cl);
+    }
+
+    public void update(View view) {
+        for(String s : selectedItems) {
+            db.updatelangStatus(s,1);
+        }
+        finish();
     }
 
     private class CustomList extends BaseAdapter {
@@ -68,7 +86,13 @@ public class Subscriptions extends AppCompatActivity {
             final CheckBox cb =view.findViewById(R.id.customCheck);
             final TextView customTextView = (TextView) view.findViewById(R.id.customTextViewCheck);
             customTextView.setText(langs.get(position));
-
+            if(status.get(position) ==1){
+                cb.setChecked(true);
+                selectedItems.add((String) customTextView.getText());
+            }
+            if(selectedItems.contains(langs.get(position))){
+                cb.setChecked(true);
+            }
             customCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -76,8 +100,8 @@ public class Subscriptions extends AppCompatActivity {
                         cb.setChecked(true);
                         selectedItems.add((String) customTextView.getText());
                         Toast.makeText(getApplicationContext(),customTextView.getText(), Toast.LENGTH_SHORT).show();
-
-                    }else{
+                    }
+                    else{
                         cb.setChecked(false);
                         selectedItems.remove(customTextView.getText());
                     }
