@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 
 public class Add extends AppCompatActivity {
-    TextView tv;
+    EditText tv;
     DatabaseHelper db;
 
     @Override
@@ -21,8 +21,8 @@ public class Add extends AppCompatActivity {
     }
 
     public void add(View view) {
-        String addText = (String) tv.getText();
-        if(!addText.equals(null)  &&  !addText.equals("")){
+        String addText = tv.getText().toString();
+        if(addText != null &&  !addText.equals("")){
             db.addPhrase(addText);
             finish();
         }

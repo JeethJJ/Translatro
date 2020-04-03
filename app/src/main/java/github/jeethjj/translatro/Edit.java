@@ -49,7 +49,7 @@ public class Edit extends AppCompatActivity {
     }
 
     public void save(View view) {
-        String newPhrase = String.valueOf(et.getText());
+        String newPhrase = et.getText().toString();
         if(!newPhrase.equals(null)  &&  !newPhrase.equals("")){
             db.updatePhrase(newPhrase,db.getID(edit));
             phrases = db.getPhrases();

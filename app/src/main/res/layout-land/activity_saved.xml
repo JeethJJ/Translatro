@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        android:text="Select Language :"
+        android:text="@string/select_language_text"
         android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/select_lang_saved_spin"
@@ -34,7 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:background="@drawable/home_btn"
-        android:text="Get"
+        android:onClick="get"
+        android:text="@string/get"
         app:layout_constraintEnd_toEndOf="@+id/select_lang_saved_spin"
         app:layout_constraintStart_toEndOf="@+id/select_lang_saved_spin"
         app:layout_constraintTop_toBottomOf="@+id/select_lang_saved_spin" />

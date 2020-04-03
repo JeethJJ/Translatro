@@ -23,4 +23,7 @@
     <string name="language_translator_apikey">8-wzcUpk1sMw_FElhXnqqWEBDkYya_FZPl9iJ80s7juM</string>
     <string name="text_speech_apikey">BWQaXB9XxRkziP8ih5Z8rL2MXaO9SDbXv2nPr5Br7nIQ</string>
     <string name="text_speech_url">https://api.eu-gb.text-to-speech.watson.cloud.ibm.com/instances/b0d06307-679d-41cc-990a-6f2f9dc25db8</string>
+    <string name="select_language_text">Select Language :</string>
+    <string name="get">Get</string>
+    <string name="english">English</string>
 </resources>
