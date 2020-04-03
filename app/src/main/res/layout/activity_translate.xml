@@ -56,9 +56,10 @@
         android:id="@+id/translate_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/translate"
+        android:layout_marginTop="80dp"
         android:background="@drawable/home_btn"
+        android:onClick="translate"
+        android:text="@string/translate"
         app:layout_constraintEnd_toEndOf="@+id/lang_spin"
         app:layout_constraintTop_toBottomOf="@+id/lang_spin" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,8 +2,12 @@ package github.jeethjj.translatro;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ibm.cloud.sdk.core.http.HttpMediaType;
@@ -21,17 +25,49 @@ public class Translated extends AppCompatActivity {
 
     private LanguageTranslator translationService;
     TextView translated_phrase;
+    TextView english_phrase;
+    TextView language;
     private StreamPlayer player = new StreamPlayer();
     private TextToSpeech textService;
+    String lang;
+    String languageKEY;
+    String phrase;
+    String translatedPhrase;
+    Button button3;
+    ProgressBar pb;  //https://www.youtube.com/watch?v=VmLXxCSxtds
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_translated);
         translated_phrase = findViewById(R.id.translated_phrase);
+        english_phrase = findViewById(R.id.english_phrase);
+        language = findViewById(R.id.language);
+        button3 = findViewById(R.id.button3);
+        pb = findViewById(R.id.progressBar);
         translationService = initLanguageTranslatorService();
-        new TranslationTask().execute("Hello World and my friend");//translator
-        new SynthesisTask().execute("Good morning. How is quarantine?"); //speaker
+        textService = initTextToSpeechService();
+
+        pb.setVisibility(View.VISIBLE);
+        button3.setEnabled(false);
+        Intent intent = getIntent();
+        lang = intent.getStringExtra("language");
+        languageKEY = intent.getStringExtra("languageKEY");
+        phrase = intent.getStringExtra("phrase");
+
+        language.setText(lang+" :");
+        english_phrase.setText(phrase);
+
+
+        new TranslationTask().execute(phrase);//translator
+
+    }
+
+    public void pronounce(View view) {
+        button3.setEnabled(false);
+        pb.setVisibility(View.VISIBLE);
+        new SynthesisTask().execute(translatedPhrase); //speaker
     }
 
     //Translator
@@ -45,7 +81,7 @@ public class Translated extends AppCompatActivity {
     private class TranslationTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-            TranslateOptions translateOptions = new TranslateOptions.Builder().addText(params[0]).source(Language.ENGLISH).target("es").build();
+            TranslateOptions translateOptions = new TranslateOptions.Builder().addText(params[0]).source(Language.ENGLISH).target(languageKEY).build();
             TranslationResult result = translationService.translate(translateOptions).execute().getResult();
             String firstTranslation = result.getTranslations().get(0).getTranslation();
             return firstTranslation;
@@ -54,13 +90,19 @@ public class Translated extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             translated_phrase.setText(s);
+            translatedPhrase = s;
+            button3.setEnabled(true);
+            pb.setVisibility(View.GONE);
+            DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+            db.addTranslatedPhrase(lang,phrase,translatedPhrase);
         }
     }
 
     //text to speech
     private TextToSpeech initTextToSpeechService() {
         Authenticator authenticator = new IamAuthenticator(getString(R.string.text_speech_apikey));
-        TextToSpeech service = new TextToSpeech(authenticator); service.setServiceUrl(getString(R.string.text_speech_url));
+        TextToSpeech service = new TextToSpeech(authenticator);
+        service.setServiceUrl(getString(R.string.text_speech_url));
         return service;
     }
 
@@ -70,6 +112,12 @@ public class Translated extends AppCompatActivity {
             SynthesizeOptions synthesizeOptions = new SynthesizeOptions.Builder().text(params[0]) .voice(SynthesizeOptions.Voice.EN_US_LISAVOICE) .accept(HttpMediaType.AUDIO_WAV).build();
             player.playStream(textService.synthesize(synthesizeOptions).execute().getResult());
             return "Did synthesize";
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            button3.setEnabled(true);
+            pb.setVisibility(View.GONE);
         }
     }
 }

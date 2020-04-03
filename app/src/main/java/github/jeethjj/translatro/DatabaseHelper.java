@@ -33,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         this.db=db;
         String createTable1 = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_1 + " ("+COL1+" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL2 +" TEXT UNIQUE)";
-        String createTable2 = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_2 + " ("+COL3+" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL4 +" TEXT , " + COL5 +" INTEGER )";
+        String createTable2 = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_2 + " ("+COL3+" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL4 +" TEXT UNIQUE, " + COL5 +" INTEGER )";
         String createTable3 = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_3 + " ("+COL6+" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL7 +" TEXT , " + COL8 +" TEXT , "+ COL9 +" TEXT )";
         db.execSQL(createTable1);
         db.execSQL(createTable2);
@@ -68,14 +68,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public int getID(String phrase){
+//    public int getID(String phrase){
 //        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + COL1 + " FROM " + TABLE_NAME_1 +
-                " WHERE " + COL2 + " = '" + phrase + "'";
-        Cursor data = db.rawQuery(query, null);
-        data.moveToFirst();
-        return data.getInt(0);
-    }
+//        String query = "SELECT " + COL1 + " FROM " + TABLE_NAME_1 +
+//                " WHERE " + COL2 + " = '" + phrase + "'";
+//        Cursor data = db.rawQuery(query, null);
+//        data.moveToFirst();
+//        return data.getInt(0);
+//    }
 
     public void updatePhrase(String newPhrase, int id){
 //        SQLiteDatabase db = this.getWritableDatabase();
@@ -92,19 +92,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
-    public boolean addTranslatedPhrase(String lang, String eng_text, String trans_text) {
+    public void addTranslatedPhrase(String lang, String eng_text, String trans_text) {
 //        SQLiteDatabase sqldb = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put("lang",lang);
-        cv.put("eng_text",eng_text);
-        cv.put("trans_text",trans_text);
-        long result =  db.insert(TABLE_NAME_3, null, cv);
 
-        //if date as inserted incorrectly it will return -1
-        if (result == -1) {
-            return false;
-        } else {
-            return true;
+        String query = "SELECT * FROM " + TABLE_NAME_3+
+                " WHERE " + COL9 + " = '" + trans_text + "'";
+        Cursor data = db.rawQuery(query, null);
+        if(data.getCount()==0){
+            ContentValues cv = new ContentValues();
+            cv.put("lang",lang);
+            cv.put("eng_text",eng_text);
+            cv.put("trans_text",trans_text);
+            long result =  db.insert(TABLE_NAME_3, null, cv);
         }
     }
 
@@ -119,8 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addAllLangsIfNotExist(SQLiteDatabase db){
         Cursor c = getLangStatus();
         if (c.getCount()==0) {
-            String[] langs = {" Afrikaans ", " Albanian ", " Arabic ", " Armenian ", " Azerbaijani ", " Bashkir ", " Basque ", " Belarusian ", " Bengali ", " Bosnian ", " Bulgarian ", " Catalan ", " Central Khmer ", " Chinese (Simplified) ", " Chinese (Traditional) ", " Chuvash ", " Croatian ", " Czech ", " Danish ", " Dutch ", " English ", " Esperanto ", " Estonian ", " Finnish ", " French ", " Georgian ", " German ", " Greek ", " Gujarati ", " Haitian ", " Hebrew ", " Hindi ", " Hungarian ", " Icelandic ", " Indonesian ", " Irish ", " Italian ", " Japanese ", " Kazakh ", " Kirghiz ", " Korean ", " Kurdish ", " Latvian ", " Lithuanian ", " Malay ", " Malayalam ", " Maltese ", " Mongolian ", " Norwegian Bokmal ", " Norwegian Nynorsk ", " Panjabi ", " Persian ", " Polish ", " Portuguese ", " Pushto ", " Romanian ", " Russian ", " Serbian ", " Slovakian ", " Slovenian ", " Somali ", " Spanish ", " Swedish ", " Tamil ", " Telugu ", " Thai ", " Turkish ", " Ukrainian ", " Urdu ", " Vietnamese "};
-            String[] keys = {" af ", " sq ", " ar ", " hy ", " az ", " ba ", " eu ", " be ", " bn ", " bs ", " bg ", " ca ", " km ", " zh ", " zh-TW ", " cv ", " hr ", " cs ", " da ", " nl ", " en ", " eo ", " et ", " fi ", " fr ", " ka ", " de ", " el ", " gu ", " ht ", " he ", " hi ", " hu ", " is ", " id ", " ga ", " it ", " ja ", " kk ", " ky ", " ko ", " ku ", " lv ", " lt ", " ms ", " ml ", " mt ", " mn ", " nb ", " nn ", " pa ", " fa ", " pl ", " pt ", " ps ", " ro ", " ru ", " sr ", " sk ", " sl ", " so ", " es ", " sv ", " ta ", " te ", " th ", " tr ", " uk ", " ur ", " vi "};
+            String[] langs = {"Arabic", "Bulgarian", "Chinese (Simplified)", "Chinese (Traditional)", "Croatian", "Czech", "Danish", "Dutch", "English", "Estonian", "Finnish", "French", "German", "Greek", "Hebrew", "Hindi", "Hungarian", "Irish", "Italian", "Indonesian", "Japanese", "Korean" , "Latvian", "Lithuanian", "Malay", "Norwegian Bokmal", "Polish", "Portuguese", "Romanian", "Russian", "Slovak", "Slovenian", "Spanish", "Swedish",  "Thai", "Turkish", "Urdu", "Vietnamese"};
             for (String s : langs) {
                 ContentValues cv = new ContentValues();
                 cv.put("langusge", s);

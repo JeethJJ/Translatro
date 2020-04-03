@@ -27,14 +27,17 @@ public class Filtured extends AppCompatActivity {
         Intent intent = getIntent();
         language = intent.getStringExtra("language");
         languageTopic = findViewById(R.id.language_from_to);
+        languageTopic.setText("English to "+language);
         db = new DatabaseHelper(getApplicationContext());
         translatedData = db.getTranslatedPhrases(language);
         translatedPhrases= new ArrayList<ArrayList<String>>();
-        int index = 0;
-        while(translatedData.moveToNext()){
-            translatedPhrases.get(index).add(translatedData.getString(2));
-            translatedPhrases.get(index).add(translatedData.getString(3));
-            index++;
+        if(translatedData.moveToFirst()) {
+            do{
+                ArrayList<String> temp= new ArrayList<>();
+                temp.add(translatedData.getString(2));
+                temp.add(translatedData.getString(3));
+                translatedPhrases.add(temp);
+            }while (translatedData.moveToNext());
         }
         lv = findViewById(R.id.saved_translations_list);
         CustomList cl = new CustomList(translatedPhrases);

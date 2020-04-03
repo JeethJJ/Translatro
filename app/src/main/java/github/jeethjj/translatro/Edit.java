@@ -6,9 +6,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 
 public class Edit extends AppCompatActivity {
 
+    public static ArrayList< String> allPhrases;
     int selectedPosition = -1;
     DatabaseHelper db;
     String edit;
@@ -26,6 +29,8 @@ public class Edit extends AppCompatActivity {
     CustomList cl;
     ArrayList<String> arrayList;
     Cursor phrases;
+    Button save;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,40 +38,57 @@ public class Edit extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
         db=new DatabaseHelper(getApplicationContext());
         et=findViewById(R.id.editText);
+        save =findViewById(R.id.button2);
+        save.setEnabled(false);
+        et.setEnabled(false);
 
-        ListView listView = findViewById(R.id.list_edit);
+        listView = findViewById(R.id.list_edit);
         phrases = db.getPhrases();
         arrayList = new ArrayList<>();
         while(phrases.moveToNext()){
             arrayList.add(phrases.getString(1));
         }
-        cl = new CustomList(arrayList);
+        cl = new CustomList();
+        allPhrases=arrayList;
         listView.setAdapter(cl);
     }
 
     public void edit(View view) {
+        et.setEnabled(true);
         et.setText(edit);
+        save.setEnabled(true);
     }
 
     public void save(View view) {
         String newPhrase = et.getText().toString();
         if(!newPhrase.equals(null)  &&  !newPhrase.equals("")){
-            db.updatePhrase(newPhrase,db.getID(edit));
-            phrases = db.getPhrases();
-            arrayList = new ArrayList<>();
-            while(phrases.moveToNext()){
-                arrayList.add(phrases.getString(1));
-            }
+            int i = arrayList.indexOf(edit);
+//            Log.i("position", String.valueOf(i+1));
+//            Log.i("position", edit);
+//            Log.i("position", newPhrase);
+            db.updatePhrase(newPhrase,i+1);
+            arrayList.set(i, newPhrase);
+            allPhrases.set(i, newPhrase);
+//            phrases = db.getPhrases();
+//            arrayList = new ArrayList<>();
+//            while(phrases.moveToNext()){
+//                arrayList.add(phrases.getString(1));
+//            }
+//            listView.setAdapter(cl);
+            et.getText().clear();
+            save.setEnabled(false);
+            et.setEnabled(false);
             cl.notifyDataSetChanged();
+
         }
     }
 
     private class CustomList extends BaseAdapter {
 
-        private ArrayList< String> allPhrases;
 
-        private CustomList(ArrayList< String> allPhrases){
-            this.allPhrases = allPhrases;
+
+        private CustomList(){
+//            this.allPhrases = allPhrases;
         }
 
         @Override
