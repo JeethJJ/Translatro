@@ -14,7 +14,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 
 public class Edit extends AppCompatActivity {
@@ -75,7 +77,7 @@ public class Edit extends AppCompatActivity {
 
     public void save(View view) {
         String newPhrase = et.getText().toString();
-        if(!newPhrase.equals(null)  &&  !newPhrase.equals("")){
+        if(!newPhrase.equals(null)  &&  !newPhrase.equals("") &&  !newPhrase.equals(edit) ){
             int i = arrayList.indexOf(edit);
             db.updatePhrase(newPhrase,i+1);
             arrayList.set(i, newPhrase);
@@ -86,6 +88,9 @@ public class Edit extends AppCompatActivity {
             et.setEnabled(false);
             cl.notifyDataSetChanged();
             clickedEditOnce = false;
+        }else{
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.edit),"The phrase cannot be empty or the same as before!!",Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
     }
 
@@ -133,7 +138,6 @@ public class Edit extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     selectedPosition = (Integer) v.findViewById(R.id.customRadio).getTag();
-                    Toast.makeText(getApplicationContext(), customTextView.getText(), Toast.LENGTH_SHORT).show();
                     edit= (String) customTextView.getText();
                     if(clickedEditOnce){
                         et.setText(edit);

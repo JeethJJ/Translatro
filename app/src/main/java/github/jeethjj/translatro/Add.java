@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.android.material.snackbar.Snackbar;
+
 public class Add extends AppCompatActivity {
     EditText tv;
     DatabaseHelper db;
@@ -25,6 +27,9 @@ public class Add extends AppCompatActivity {
         if(addText != null &&  !addText.equals("")){
             db.addPhrase(addText);
             finish();
+        }else{
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.add),"The phrase cannot be empty!!",Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
     }
 }

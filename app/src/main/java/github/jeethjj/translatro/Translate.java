@@ -71,7 +71,7 @@ public class Translate extends AppCompatActivity {
 
         if(!ConnectivityCheck.isConnected(getApplicationContext())){
             translate_btn.setEnabled(false);
-            snackbar = Snackbar.make(findViewById(R.id.home),R.string.cantTranslate,Snackbar.LENGTH_LONG);
+            snackbar = Snackbar.make(findViewById(R.id.translate),R.string.cantTranslate,Snackbar.LENGTH_LONG);
             snackbar.show();
         }
 

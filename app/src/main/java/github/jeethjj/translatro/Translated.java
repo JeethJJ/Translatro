@@ -66,7 +66,7 @@ public class Translated extends AppCompatActivity {
 
         if(!ConnectivityCheck.isConnected(getApplicationContext())){
             button3.setEnabled(false);
-            snackbar = Snackbar.make(findViewById(R.id.home),R.string.cantPronounce,Snackbar.LENGTH_LONG);
+            snackbar = Snackbar.make(findViewById(R.id.translated),R.string.cantPronounce,Snackbar.LENGTH_LONG);
             snackbar.show();
         }
 

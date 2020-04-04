@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 
 public class Saved extends AppCompatActivity {
@@ -37,9 +39,16 @@ public class Saved extends AppCompatActivity {
 
     public void get(View view) {
         langToFilter = sp.getSelectedItem().toString();
-        Intent intent = new Intent(Saved.this, Filtured.class);
-        intent.putExtra("language", langToFilter);
-        startActivity(intent);
-        finish();
+        Cursor translatedData = db.getTranslatedPhrases(langToFilter);
+        if(translatedData.getCount()>0) {
+            Intent intent = new Intent(Saved.this, Filtured.class);
+            intent.putExtra("language", langToFilter);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.saved),"No translations saved for "+langToFilter+" yet!!",Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
     }
 }

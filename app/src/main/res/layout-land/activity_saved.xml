@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Saved"
-    android:background="@drawable/bglans">
+    android:background="@drawable/bglans"
+    android:id="@+id/saved">
 
     <TextView
         android:id="@+id/select_langusge_text"

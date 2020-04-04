@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Translated"
-    android:background="@drawable/bglans">
+    android:background="@drawable/bglans"
+    android:id="@+id/translated">
 
     <TextView
         android:id="@+id/english_phrase"

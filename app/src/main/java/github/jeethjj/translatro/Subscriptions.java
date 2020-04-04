@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -24,6 +23,12 @@ public class Subscriptions extends AppCompatActivity {
     ArrayList<String> arrayList;
     ArrayList<Integer> status;
     DatabaseHelper db;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {    // save the instance for orientation changes
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList("selectedItems",selectedItems);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,9 @@ public class Subscriptions extends AppCompatActivity {
              ww++;
         }
 
-
+        if(savedInstanceState!= null){  // is the orientation is changed it should start from where it stopped
+            this.selectedItems = savedInstanceState.getStringArrayList("selectedItems");
+        }
 
         ListView upgrade_list=  findViewById(R.id.list_upgrade);
         CustomList cl = new CustomList(arrayList);
@@ -121,7 +128,6 @@ public class Subscriptions extends AppCompatActivity {
                     if(!selectedItems.contains(customTextView.getText().toString())){
                         cb.setChecked(true);
                         selectedItems.add(customTextView.getText().toString());
-                        Toast.makeText(getApplicationContext(),customTextView.getText(), Toast.LENGTH_SHORT).show();
                     }
                     else{
                         cb.setChecked(false);
