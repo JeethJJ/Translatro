@@ -28,4 +28,7 @@
     <string name="english">English</string>
     <string name="pronounce">Pronounce</string>
     <string name="english_">English :</string>
+    <string name="cantTranslate">INTERNET CONNECTION LOST!! Translate functionality is unavailable!!</string>
+    <string name="cantPronounce">INTERNET CONNECTION LOST!! Pronounce functionality is unavailable!!</string>
+    <string name="noConn">NO CONNECTION, some features are unavailable!! Please connect and restart for full experience!!</string>
 </resources>

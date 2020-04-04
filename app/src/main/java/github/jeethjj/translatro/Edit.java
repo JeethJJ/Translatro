@@ -6,7 +6,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -23,7 +22,7 @@ public class Edit extends AppCompatActivity {
     public static ArrayList< String> allPhrases;
     int selectedPosition = -1;
     DatabaseHelper db;
-    String edit;
+    String edit="";
     boolean clickedEditOnce = false;
     EditText et;
     CustomList cl;
@@ -33,14 +32,28 @@ public class Edit extends AppCompatActivity {
     ListView listView;
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {    // save the instance for orientation changes
+        super.onSaveInstanceState(outState);
+        outState.putString("edit",edit);
+        outState.putBoolean("clickedEditOnce",clickedEditOnce);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         db=new DatabaseHelper(getApplicationContext());
         et=findViewById(R.id.editText);
         save =findViewById(R.id.button2);
-        save.setEnabled(false);
-        et.setEnabled(false);
+        if(savedInstanceState!= null){  // is the orientation is changed it should start from where it stopped
+            this.edit = savedInstanceState.getString("edit");
+            this.clickedEditOnce = savedInstanceState.getBoolean("clickedEditOnce");
+        }
+
+        if(!clickedEditOnce) {
+            save.setEnabled(false);
+            et.setEnabled(false);
+        }
 
         listView = findViewById(R.id.list_edit);
         phrases = db.getPhrases();
@@ -54,6 +67,7 @@ public class Edit extends AppCompatActivity {
     }
 
     public void edit(View view) {
+        clickedEditOnce = true;
         et.setEnabled(true);
         et.setText(edit);
         save.setEnabled(true);
@@ -63,23 +77,15 @@ public class Edit extends AppCompatActivity {
         String newPhrase = et.getText().toString();
         if(!newPhrase.equals(null)  &&  !newPhrase.equals("")){
             int i = arrayList.indexOf(edit);
-//            Log.i("position", String.valueOf(i+1));
-//            Log.i("position", edit);
-//            Log.i("position", newPhrase);
             db.updatePhrase(newPhrase,i+1);
             arrayList.set(i, newPhrase);
             allPhrases.set(i, newPhrase);
-//            phrases = db.getPhrases();
-//            arrayList = new ArrayList<>();
-//            while(phrases.moveToNext()){
-//                arrayList.add(phrases.getString(1));
-//            }
-//            listView.setAdapter(cl);
+
             et.getText().clear();
             save.setEnabled(false);
             et.setEnabled(false);
             cl.notifyDataSetChanged();
-
+            clickedEditOnce = false;
         }
     }
 
@@ -88,7 +94,6 @@ public class Edit extends AppCompatActivity {
 
 
         private CustomList(){
-//            this.allPhrases = allPhrases;
         }
 
         @Override
@@ -117,8 +122,12 @@ public class Edit extends AppCompatActivity {
             radioButton.setChecked(position == selectedPosition);
             radioButton.setTag(position);
 
-            final TextView customTextView = (TextView) view.findViewById(R.id.customTextView);
+            final TextView customTextView = view.findViewById(R.id.customTextView);
             customTextView.setText(allPhrases.get(position));
+
+            if(edit.equals(customTextView.getText())){
+                radioButton.setChecked(true);
+            }
 
             customCard.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -129,7 +138,6 @@ public class Edit extends AppCompatActivity {
                     if(clickedEditOnce){
                         et.setText(edit);
                     }
-                    clickedEditOnce = true;
                     notifyDataSetChanged();
                 }
             });

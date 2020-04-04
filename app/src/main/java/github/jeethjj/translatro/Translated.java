@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.ibm.cloud.sdk.core.http.HttpMediaType;
 import com.ibm.cloud.sdk.core.security.Authenticator;
 import com.ibm.cloud.sdk.core.security.IamAuthenticator;
@@ -34,6 +35,7 @@ public class Translated extends AppCompatActivity {
     String phrase;
     String translatedPhrase;
     Button button3;
+    Snackbar snackbar;
     ProgressBar pb;  //https://www.youtube.com/watch?v=VmLXxCSxtds
 
 
@@ -61,6 +63,12 @@ public class Translated extends AppCompatActivity {
 
 
         new TranslationTask().execute(phrase);//translator
+
+        if(!ConnectivityCheck.isConnected(getApplicationContext())){
+            button3.setEnabled(false);
+            snackbar = Snackbar.make(findViewById(R.id.home),R.string.cantPronounce,Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
 
     }
 

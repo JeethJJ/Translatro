@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 
 public class Translate extends AppCompatActivity {
@@ -22,6 +24,7 @@ public class Translate extends AppCompatActivity {
     String langToTrans;
     String phraseToTrans;
     Button translate_btn;
+    Snackbar snackbar;
     String[] keys = {"ar", "bg", "zh", "zh-TW", "hr","cs", "da", "nl", "en", "et", "fi","fr", "de", "el", "he", "hi", "hu","ga", "it", "id", "ja", "ko", "lv","lt", "ms", "nb", "pl", "pt", "ro","ru", "sk", "sl", "es", "sv", "th","tr", "ur","vi"};
 
 
@@ -64,6 +67,12 @@ public class Translate extends AppCompatActivity {
 
         if(!String.valueOf(lang_spin.getSelectedItem()).equals("null") && !String.valueOf(phrase_spin.getSelectedItem()).equals("null")){
             translate_btn.setEnabled(true);
+        }
+
+        if(!ConnectivityCheck.isConnected(getApplicationContext())){
+            translate_btn.setEnabled(false);
+            snackbar = Snackbar.make(findViewById(R.id.home),R.string.cantTranslate,Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
 
     }
