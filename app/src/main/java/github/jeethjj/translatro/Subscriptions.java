@@ -98,7 +98,6 @@ public class Subscriptions extends AppCompatActivity {
 
         @Override
         public View getView(final int position, final View customView, final ViewGroup parent) {
-//            Log.i("position", String.valueOf(position));
             View view = customView;
             if (view == null){
                 view = View.inflate(Subscriptions.this, R.layout.checkable_list, null);
@@ -107,12 +106,8 @@ public class Subscriptions extends AppCompatActivity {
             final CheckBox cb =view.findViewById(R.id.customCheck);
             final TextView customTextView = (TextView) view.findViewById(R.id.customTextViewCheck);
 
-//            Log.i("position", String.valueOf(position));
-//            Log.i("setText",customTextView.getText().toString());
             customTextView.setText(langs.get(position));
-//            Log.i("setText",customTextView.getText().toString());
-//            checkAndUpdate(cb,langs.get(position));
-//            Log.i("setText",customTextView.getText().toString());
+
             if (!selectedItems.contains(langs.get(position))) {
                 cb.setChecked(false);
             }
@@ -120,17 +115,6 @@ public class Subscriptions extends AppCompatActivity {
                 cb.setChecked(true);
             }
 
-//            Log.i("positionText", String.valueOf(langs.get(position)));
-
-
-//            for(String item : selectedItems){
-//                if (item.equals(customTextView.getText().toString())){
-//                    cb.setChecked(true);
-//                }
-//            }
-//            if(selectedItems.contains(customTextView.getText().toString())){
-//                cb.setChecked(true);
-//            }
             customCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -148,19 +132,6 @@ public class Subscriptions extends AppCompatActivity {
             return view;
         }
     }
-
-    private void checkAndUpdate(CheckBox cb, String s) {
-        if(!added.contains(s)) {
-            if (selectedItems.contains(s)) {
-                cb.setChecked(true);
-            }
-            added.add(s);
-        }
-        if (!selectedItems.contains(s)) {
-            cb.setChecked(false);
-        }
-    }
-
 
 }
 
