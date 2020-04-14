@@ -8,12 +8,12 @@
     android:background="@drawable/bg">
 
 
-
     <ListView
         android:id="@+id/list_all_phrase"
-        android:layout_width="410dp"
-        android:layout_height="560dp"
-        android:divider="@android:color/black"
+        android:layout_width="370dp"
+        android:layout_height="520dp"
+        android:background="@drawable/list_bg"
+        android:divider="#777777"
         android:dividerHeight="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,9 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/home_btn"
+        android:onClick="ok"
         android:text="@string/ok"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

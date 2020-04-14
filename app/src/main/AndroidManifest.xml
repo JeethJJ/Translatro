@@ -28,13 +28,15 @@
             tools:targetApi="jelly_bean" />
         <activity android:name=".Edit"
             android:parentActivityName=".Home"
-            tools:targetApi="jelly_bean" />
+            tools:targetApi="jelly_bean"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ViewSentence"
             android:parentActivityName=".Home"
             tools:targetApi="jelly_bean" />
         <activity android:name=".Add"
             android:parentActivityName=".Home"
-            tools:targetApi="jelly_bean" />
+            tools:targetApi="jelly_bean"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".Home" />
         <activity
             android:name=".MainActivity"

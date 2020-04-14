@@ -63,7 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getPhrases(){
 //        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME_1;
+        String query = "SELECT * FROM " + TABLE_NAME_1 +" ORDER BY "+COL2+" ASC";
         Cursor data = db.rawQuery(query, null);
         return data;
     }
@@ -118,7 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addAllLangsIfNotExist(SQLiteDatabase db){
         Cursor c = getLangStatus();
         if (c.getCount()==0) {
-            String[] langs = {"Arabic", "Bulgarian", "Chinese (Simplified)", "Chinese (Traditional)", "Croatian", "Czech", "Danish", "Dutch", "English", "Estonian", "Finnish", "French", "German", "Greek", "Hebrew", "Hindi", "Hungarian", "Irish", "Italian", "Indonesian", "Japanese", "Korean" , "Latvian", "Lithuanian", "Malay", "Norwegian Bokmal", "Polish", "Portuguese", "Romanian", "Russian", "Slovak", "Slovenian", "Spanish", "Swedish",  "Thai", "Turkish", "Urdu", "Vietnamese"};
+            String[] langs = {"Arabic", "Bulgarian", "Chinese (Simplified)", "Chinese (Traditional)", "Croatian", "Czech", "Danish", "Dutch", "Estonian", "Finnish", "French", "German", "Greek", "Hebrew", "Hindi", "Hungarian", "Irish", "Italian", "Indonesian", "Japanese", "Korean" , "Latvian", "Lithuanian", "Malay", "Norwegian Bokmal", "Polish", "Portuguese", "Romanian", "Russian", "Slovak", "Slovenian", "Spanish", "Swedish",  "Thai", "Turkish", "Urdu", "Vietnamese"};
             for (String s : langs) {
                 ContentValues cv = new ContentValues();
                 cv.put("langusge", s);

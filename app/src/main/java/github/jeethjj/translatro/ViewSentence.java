@@ -3,6 +3,7 @@ package github.jeethjj.translatro;
 import androidx.appcompat.app.AppCompatActivity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
@@ -29,5 +30,9 @@ public class ViewSentence extends AppCompatActivity {
 
         ArrayAdapter adapter=new ArrayAdapter<String>(this,R.layout.list_textview,R.id.text_view,itemList);
         lv.setAdapter(adapter);
+    }
+
+    public void ok(View view) {
+        finish();
     }
 }

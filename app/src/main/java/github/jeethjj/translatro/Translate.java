@@ -25,7 +25,7 @@ public class Translate extends AppCompatActivity {
     String phraseToTrans;
     Button translate_btn;
     Snackbar snackbar;
-    String[] keys = {"ar", "bg", "zh", "zh-TW", "hr","cs", "da", "nl", "en", "et", "fi","fr", "de", "el", "he", "hi", "hu","ga", "it", "id", "ja", "ko", "lv","lt", "ms", "nb", "pl", "pt", "ro","ru", "sk", "sl", "es", "sv", "th","tr", "ur","vi"};
+    String[] keys = {"ar", "bg", "zh", "zh-TW", "hr","cs", "da", "nl", "et", "fi","fr", "de", "el", "he", "hi", "hu","ga", "it", "id", "ja", "ko", "lv","lt", "ms", "nb", "pl", "pt", "ro","ru", "sk", "sl", "es", "sv", "th","tr", "ur","vi"};
 
 
     @Override

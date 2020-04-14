@@ -37,8 +37,7 @@ public class Translated extends AppCompatActivity {
     Button button3;
     Snackbar snackbar;
     ProgressBar pb;  //https://www.youtube.com/watch?v=VmLXxCSxtds
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

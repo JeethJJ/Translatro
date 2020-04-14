@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -35,6 +36,10 @@ public class Saved extends AppCompatActivity {
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,langs);
         sp.setAdapter(adapter);
+        if(langs.size()==0){
+            Button get = findViewById(R.id.get_saved);
+            get.setEnabled(false);
+        }
     }
 
     public void get(View view) {

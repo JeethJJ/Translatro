@@ -8,18 +8,18 @@
     android:background="@drawable/bglans">
 
 
-
     <ListView
         android:id="@+id/list_all_phrase"
-        android:layout_width="537dp"
-        android:layout_height="283dp"
+        android:layout_width="520dp"
+        android:layout_height="260dp"
         android:layout_marginBottom="40dp"
+        android:background="@drawable/list_bg"
         android:divider="@android:color/black"
         android:dividerHeight="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/available_text" />
 
 
     <TextView
@@ -39,9 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        android:background="@drawable/home_btn"
-        android:layout_marginRight="24dp"
         android:layout_marginBottom="24dp"
+        android:background="@drawable/home_btn"
+        android:onClick="ok"
         android:text="@string/ok"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

@@ -20,7 +20,7 @@ public class Home extends AppCompatActivity {
         translate = findViewById(R.id.translate_btn);
         if(!ConnectivityCheck.isConnected(getApplicationContext())){
             translate.setEnabled(false);
-            snackbar = Snackbar.make(findViewById(R.id.home),R.string.noConn,Snackbar.LENGTH_LONG);
+            snackbar = Snackbar.make(findViewById(R.id.home),R.string.noConn,4000);
             snackbar.show();
         }else{
             translate.setEnabled(true);
@@ -32,7 +32,7 @@ public class Home extends AppCompatActivity {
         super.onStart();
         if(!ConnectivityCheck.isConnected(getApplicationContext())){
             translate.setEnabled(false);
-            snackbar = Snackbar.make(findViewById(R.id.home),R.string.noConn,Snackbar.LENGTH_LONG);
+            snackbar = Snackbar.make(findViewById(R.id.home),R.string.noConn,4000);
             snackbar.show();
         }else{
             translate.setEnabled(true);
@@ -44,7 +44,7 @@ public class Home extends AppCompatActivity {
         super.onResume();
         if(!ConnectivityCheck.isConnected(getApplicationContext())){
             translate.setEnabled(false);
-            snackbar = Snackbar.make(findViewById(R.id.home),R.string.noConn,Snackbar.LENGTH_LONG);
+            snackbar = Snackbar.make(findViewById(R.id.home),R.string.noConn,4000);
             snackbar.show();
         }else{
             translate.setEnabled(true);
