@@ -52,7 +52,7 @@ public class Edit extends AppCompatActivity {
             this.clickedEditOnce = savedInstanceState.getBoolean("clickedEditOnce");
         }
 
-        if(!clickedEditOnce) {
+        if(!clickedEditOnce) {     // To track whether the edit button is already clicked
             save.setEnabled(false);
             et.setEnabled(false);
         }
@@ -60,7 +60,7 @@ public class Edit extends AppCompatActivity {
         listView = findViewById(R.id.list_edit);
         phrases = db.getPhrases();
         arrayList = new ArrayList<>();
-        while(phrases.moveToNext()){
+        while(phrases.moveToNext()){    // adding all the data that return from the database to a list
             arrayList.add(phrases.getString(1));
         }
         cl = new CustomList();
@@ -75,7 +75,7 @@ public class Edit extends AppCompatActivity {
         save.setEnabled(true);
     }
 
-    public void save(View view) {
+    public void save(View view) {  // when the save button is clicked the Field Will get updated if there is a change
         String newPhrase = et.getText().toString();
         if(!newPhrase.equals(null)  &&  !newPhrase.equals("") &&  !newPhrase.equals(edit) ){
             int i = arrayList.indexOf(edit);
@@ -94,7 +94,7 @@ public class Edit extends AppCompatActivity {
         }
     }
 
-    private class CustomList extends BaseAdapter {
+    private class CustomList extends BaseAdapter {     // a custom adapter with the text wheel and a radio button
 
 
 
@@ -128,13 +128,13 @@ public class Edit extends AppCompatActivity {
             radioButton.setTag(position);
 
             final TextView customTextView = view.findViewById(R.id.customTextView);
-            customTextView.setText(allPhrases.get(position));
+            customTextView.setText(allPhrases.get(position));  // adding the text
 
             if(edit.equals(customTextView.getText())){
                 radioButton.setChecked(true);
             }
 
-            customCard.setOnClickListener(new View.OnClickListener() {
+            customCard.setOnClickListener(new View.OnClickListener() {     // whenever you select option the text will be selected
                 @Override
                 public void onClick(View v) {
                     selectedPosition = (Integer) v.findViewById(R.id.customRadio).getTag();

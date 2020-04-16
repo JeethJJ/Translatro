@@ -3,7 +3,6 @@ package github.jeethjj.translatro;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 public class Subscriptions extends AppCompatActivity {
 
     ArrayList<String> selectedItems;
-    private static ArrayList<String> added;
     ArrayList<String> arrayList;
     ArrayList<Integer> status;
     DatabaseHelper db;
@@ -35,21 +33,19 @@ public class Subscriptions extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subscriptions);
         selectedItems=new ArrayList<>();
-        added=new ArrayList<>();
         db= new DatabaseHelper(getApplicationContext());
         Cursor languages = db.getLangStatus();
 
-        arrayList = new ArrayList<>();
+        arrayList = new ArrayList<>(); // checking the selected language and adding to the list
         while(languages.moveToNext()){
             arrayList.add(languages.getString(1));
         }
 
         status = new ArrayList<>();
 
-        if(languages.moveToFirst()) {
+        if(languages.moveToFirst()) {  // iterating throughout the cursor
             do{
                 status.add(languages.getInt(2));
-                Log.i("status", String.valueOf(languages.getInt(2)));
             }while (languages.moveToNext());
         }
 
@@ -67,10 +63,10 @@ public class Subscriptions extends AppCompatActivity {
 
         ListView upgrade_list=  findViewById(R.id.list_upgrade);
         CustomList cl = new CustomList(arrayList);
-        upgrade_list.setAdapter(cl);
+        upgrade_list.setAdapter(cl);     // Setting up the list View
     }
 
-    public void update(View view) {
+    public void update(View view) {  // updating all the language statuses
         for(String s : arrayList) {
             db.updatelangStatus(s,0);
         }
@@ -80,7 +76,7 @@ public class Subscriptions extends AppCompatActivity {
         finish();
     }
 
-    private class CustomList extends BaseAdapter {
+    private class CustomList extends BaseAdapter {  // custom adapter with a checkbox and a text View
 
         private ArrayList< String> langs;
 
@@ -113,16 +109,16 @@ public class Subscriptions extends AppCompatActivity {
             final CheckBox cb =view.findViewById(R.id.customCheck);
             final TextView customTextView = (TextView) view.findViewById(R.id.customTextViewCheck);
 
-            customTextView.setText(langs.get(position));
+            customTextView.setText(langs.get(position));     // Setting the text which is the language
 
-            if (!selectedItems.contains(langs.get(position))) {
+            if (!selectedItems.contains(langs.get(position))) {  // checking the check box if the language is subscribed
                 cb.setChecked(false);
             }
             if (selectedItems.contains(langs.get(position))) {
                 cb.setChecked(true);
             }
 
-            customCard.setOnClickListener(new View.OnClickListener() {
+            customCard.setOnClickListener(new View.OnClickListener() {  // every time a language is selected the list is updated
                 @Override
                 public void onClick(View v) {
                     if(!selectedItems.contains(customTextView.getText().toString())){

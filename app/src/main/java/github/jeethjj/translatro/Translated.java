@@ -51,9 +51,9 @@ public class Translated extends AppCompatActivity {
         textService = initTextToSpeechService();
 
         pb.setVisibility(View.VISIBLE);
-        button3.setEnabled(false);
+        button3.setEnabled(false);     // the button is available only after the translation is finished
         Intent intent = getIntent();
-        lang = intent.getStringExtra("language");
+        lang = intent.getStringExtra("language");  // getting all the stuff transferred from the previous activity
         languageKEY = intent.getStringExtra("languageKEY");
         phrase = intent.getStringExtra("phrase");
 
@@ -63,7 +63,7 @@ public class Translated extends AppCompatActivity {
 
         new TranslationTask().execute(phrase);//translator
 
-        if(!ConnectivityCheck.isConnected(getApplicationContext())){
+        if(!ConnectivityCheck.isConnected(getApplicationContext())){     // checking the connectivity
             button3.setEnabled(false);
             snackbar = Snackbar.make(findViewById(R.id.translated),R.string.cantPronounce,Snackbar.LENGTH_LONG);
             snackbar.show();
@@ -71,10 +71,10 @@ public class Translated extends AppCompatActivity {
 
     }
 
-    public void pronounce(View view) {
+    public void pronounce(View view) {     // when the pronounce button is clicked
         button3.setEnabled(false);
         pb.setVisibility(View.VISIBLE);
-        new SynthesisTask().execute(translatedPhrase); //speaker
+        new SynthesisTask().execute(translatedPhrase); // sending the word to speak
     }
 
     //Translator
@@ -85,8 +85,8 @@ public class Translated extends AppCompatActivity {
         return service;
     }
 
-    private class TranslationTask extends AsyncTask<String, Void, String> {
-        @Override
+    private class TranslationTask extends AsyncTask<String, Void, String> {     // running the translator in a different thread
+        @Override     // if not the app will crash because the translator will take more time end do UI thread might crash
         protected String doInBackground(String... params) {
             TranslateOptions translateOptions = new TranslateOptions.Builder().addText(params[0]).source(Language.ENGLISH).target(languageKEY).build();
             TranslationResult result = translationService.translate(translateOptions).execute().getResult();
@@ -113,7 +113,8 @@ public class Translated extends AppCompatActivity {
         return service;
     }
 
-    private class SynthesisTask extends AsyncTask<String, Void, String> {
+    private class SynthesisTask extends AsyncTask<String, Void, String> {     // running a translator in a different thread
+        // if not the ui thread Will crash
         @Override
         protected String doInBackground(String... params) {
             SynthesizeOptions synthesizeOptions = new SynthesizeOptions.Builder().text(params[0]) .voice(SynthesizeOptions.Voice.EN_US_LISAVOICE) .accept(HttpMediaType.AUDIO_WAV).build();

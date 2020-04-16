@@ -35,7 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createTable1 = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_1 + " ("+COL1+" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL2 +" TEXT UNIQUE)";
         String createTable2 = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_2 + " ("+COL3+" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL4 +" TEXT UNIQUE, " + COL5 +" INTEGER )";
         String createTable3 = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_3 + " ("+COL6+" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL7 +" TEXT , " + COL8 +" TEXT , "+ COL9 +" TEXT )";
-        db.execSQL(createTable1);
+        db.execSQL(createTable1);     // execute quarries to create the database tables if they do not exist
         db.execSQL(createTable2);
         db.execSQL(createTable3);
         addAllLangsIfNotExist(db);
@@ -61,7 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getPhrases(){
+    public Cursor getPhrases(){      // to get all the saved phrases
 //        SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME_1 +" ORDER BY "+COL2+" ASC";
         Cursor data = db.rawQuery(query, null);
@@ -77,14 +77,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        return data.getInt(0);
 //    }
 
-    public void updatePhrase(String newPhrase, int id){
+    public void updatePhrase(String newPhrase, int id){     // to edit the phrase
 //        SQLiteDatabase db = this.getWritableDatabase();
         String query = "UPDATE " + TABLE_NAME_1 + " SET " + COL2 +
                 " = '" + newPhrase + "' WHERE " + COL1 + " = '" + id + "'";
         db.execSQL(query);
     }
 
-    public void deleteName(int id, String phrase){
+    public void deleteName(int id, String phrase){  // this will delete the phrase from the database
 //        SQLiteDatabase db = this.getWritableDatabase();
         String query = "DELETE FROM " + TABLE_NAME_1 + " WHERE "
                 + COL1 + " = '" + id + "'" +
@@ -92,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
-    public void addTranslatedPhrase(String lang, String eng_text, String trans_text) {
+    public void addTranslatedPhrase(String lang, String eng_text, String trans_text) {    // saving the translated phrase please in the database
 //        SQLiteDatabase sqldb = this.getWritableDatabase();
 
         String query = "SELECT * FROM " + TABLE_NAME_3+
@@ -107,7 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getTranslatedPhrases(String lang){
+    public Cursor getTranslatedPhrases(String lang){  // get the translated phrase depending on the language
 //        SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME_3+
                 " WHERE " + COL7 + " = '" + lang + "'";
@@ -115,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public void addAllLangsIfNotExist(SQLiteDatabase db){
+    public void addAllLangsIfNotExist(SQLiteDatabase db){   // add all the languages if they do not exist
         Cursor c = getLangStatus();
         if (c.getCount()==0) {
             String[] langs = {"Arabic", "Bulgarian", "Chinese (Simplified)", "Chinese (Traditional)", "Croatian", "Czech", "Danish", "Dutch", "Estonian", "Finnish", "French", "German", "Greek", "Hebrew", "Hindi", "Hungarian", "Irish", "Italian", "Indonesian", "Japanese", "Korean" , "Latvian", "Lithuanian", "Malay", "Norwegian Bokmal", "Polish", "Portuguese", "Romanian", "Russian", "Slovak", "Slovenian", "Spanish", "Swedish",  "Thai", "Turkish", "Urdu", "Vietnamese"};
@@ -128,14 +128,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getLangStatus(){
+    public Cursor getLangStatus(){     // get all the subscribed languages
 //        SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME_2;
         Cursor data = db.rawQuery(query, null);
         return data;
     }
 
-    public void updatelangStatus(String lang, int status){
+    public void updatelangStatus(String lang, int status){     // update language subscriptions
 //        SQLiteDatabase db = this.getWritableDatabase();
         String query = "UPDATE " + TABLE_NAME_2 + " SET " + COL5 +
                 " = '" + status + "' WHERE " + COL4 + " = '" + lang + "'";

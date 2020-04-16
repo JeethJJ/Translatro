@@ -6,7 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 
-public class ConnectivityCheck {
+public class ConnectivityCheck {  // a class to check whether the application is connected to the Internet
 
     public static boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -21,15 +21,15 @@ public class ViewSentence extends AppCompatActivity {
         db= new DatabaseHelper(getApplicationContext());
 
         itemList=new ArrayList<>();
-        Cursor phrases = db.getPhrases();
-        while(phrases.moveToNext()){
+        Cursor phrases = db.getPhrases();       // getting all the saved phrases
+        while(phrases.moveToNext()){     // adding the phrases to the list
             itemList.add(phrases.getString(1));
         }
 
         ListView lv = findViewById(R.id.list_all_phrase);
 
-        ArrayAdapter adapter=new ArrayAdapter<String>(this,R.layout.list_textview,R.id.text_view,itemList);
-        lv.setAdapter(adapter);
+        ArrayAdapter adapter=new ArrayAdapter<String>(this,R.layout.list_textview,R.id.text_view,itemList);     // adding the phrases to the adapter
+        lv.setAdapter(adapter);     // adding the adapter to the list view
     }
 
     public void ok(View view) {

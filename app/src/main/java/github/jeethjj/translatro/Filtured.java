@@ -41,15 +41,15 @@ public class Filtured extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filtured);
         Intent intent = getIntent();
-        language = intent.getStringExtra("language");
+        language = intent.getStringExtra("language");   // get the language
         languageTopic = findViewById(R.id.language_from_to);
-        languageTopic.setText("English to "+language);
+        languageTopic.setText("English to "+language);     // Setting the heading
         textService = initTextToSpeechService();
         pb = findViewById(R.id.progressBar2);
         pb.setVisibility(View.GONE);
         db = new DatabaseHelper(getApplicationContext());
         translatedData = db.getTranslatedPhrases(language);
-        translatedPhrases= new ArrayList<ArrayList<String>>();
+        translatedPhrases= new ArrayList<ArrayList<String>>();       // adding all the translated phrases to the array
         if(translatedData.moveToFirst()) {
             do{
                 ArrayList<String> temp= new ArrayList<>();
@@ -60,13 +60,13 @@ public class Filtured extends AppCompatActivity {
         }
         lv = findViewById(R.id.saved_translations_list);
         CustomList cl = new CustomList(translatedPhrases);
-        lv.setAdapter(cl);
+        lv.setAdapter(cl);     // Setting the adapt it to the list for you
 
 
 
     }
 
-    private class CustomList extends BaseAdapter {
+    private class CustomList extends BaseAdapter {  // custom adapter to view the translated phrase with the pronounce button
 
         private ArrayList<ArrayList<String>> translated;
 
@@ -102,7 +102,7 @@ public class Filtured extends AppCompatActivity {
             final TextView customTextViewTranslatedText = (TextView) view.findViewById(R.id.translated_text_translated);
             pron_phrase = view.findViewById(R.id.pron_phrase);
 
-            if(!ConnectivityCheck.isConnected(getApplicationContext())){
+            if(!ConnectivityCheck.isConnected(getApplicationContext())){   // and the pronounce option is only available if connected to the Internet
                 pron_phrase.setEnabled(false);
                 Snackbar snackbar = Snackbar.make(findViewById(R.id.translated),R.string.cantPronounce,Snackbar.LENGTH_LONG);
                 snackbar.show();
@@ -112,7 +112,7 @@ public class Filtured extends AppCompatActivity {
             customTextViewEnglishText.setText(translated.get(position).get(0));
             customTextViewTranslatedText.setText(translated.get(position).get(1));
 
-            pron_phrase.setOnClickListener(new View.OnClickListener() {
+            pron_phrase.setOnClickListener(new View.OnClickListener() {     // to pronounce the phrase
                 @Override
                 public void onClick(View v) {
                     String pron = customTextViewTranslatedText.getText().toString();
@@ -133,7 +133,7 @@ public class Filtured extends AppCompatActivity {
         return service;
     }
 
-    private class SynthesisTask extends AsyncTask<String, Void, String> {
+    private class SynthesisTask extends AsyncTask<String, Void, String> {     // running the text to speech in a new thread
         @Override
         protected String doInBackground(String... params) {
             SynthesizeOptions synthesizeOptions = new SynthesizeOptions.Builder().text(params[0]) .voice(SynthesizeOptions.Voice.EN_US_LISAVOICE) .accept(HttpMediaType.AUDIO_WAV).build();

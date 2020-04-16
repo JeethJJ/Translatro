@@ -26,23 +26,23 @@ public class Saved extends AppCompatActivity {
         setContentView(R.layout.activity_saved);
         sp= findViewById(R.id.select_lang_saved_spin);
         db=new DatabaseHelper(getApplicationContext());
-        Cursor languages = db.getLangStatus();
+        Cursor languages = db.getLangStatus();     // getting all the saved phrases
 
-        langs = new ArrayList<>();
+        langs = new ArrayList<>();      // adding the phrases to the array list
         while(languages.moveToNext()){
             if(languages.getInt(2)==1) {
                 langs.add(languages.getString(1));
             }
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,langs);
-        sp.setAdapter(adapter);
+        sp.setAdapter(adapter);     // viewing all the phrases through the adapter in the List View
         if(langs.size()==0){
             Button get = findViewById(R.id.get_saved);
             get.setEnabled(false);
         }
     }
 
-    public void get(View view) {
+    public void get(View view) {     // when the button is clicked select the language selected by the user and pass whoa it to the next activity
         langToFilter = sp.getSelectedItem().toString();
         Cursor translatedData = db.getTranslatedPhrases(langToFilter);
         if(translatedData.getCount()>0) {
@@ -53,7 +53,7 @@ public class Saved extends AppCompatActivity {
         }
         else{
             Snackbar snackbar = Snackbar.make(findViewById(R.id.saved),"No translations saved for "+langToFilter+" yet!!",Snackbar.LENGTH_LONG);
-            snackbar.show();
+            snackbar.show();     // viewing a message if language is empty
         }
     }
 }

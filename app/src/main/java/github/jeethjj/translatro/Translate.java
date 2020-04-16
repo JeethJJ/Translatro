@@ -41,20 +41,20 @@ public class Translate extends AppCompatActivity {
         Cursor languages = db.getLangStatus();
 
         langs = new ArrayList<>();
-        while(languages.moveToNext()){
+        while(languages.moveToNext()){  // the user it is given the translate option only for the subscribe to languages
             if(languages.getInt(2)==1) {
                 langs.add(languages.getString(1));
             }
         }
 
         Cursor languages2 = db.getLangStatus();
-        allLangs = new ArrayList<>();
+        allLangs = new ArrayList<>();    //
         while(languages2.moveToNext()){
             allLangs.add(languages2.getString(1));
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,langs);
-        lang_spin.setAdapter(adapter);
+        lang_spin.setAdapter(adapter);  // adding the languages to the spinner
 
         itemList = new ArrayList<>();  //add all phrases
         Cursor phrases = db.getPhrases();
@@ -63,7 +63,7 @@ public class Translate extends AppCompatActivity {
         }
 
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,itemList);
-        phrase_spin.setAdapter(adapter2);
+        phrase_spin.setAdapter(adapter2);     // adding the phrases to the spinner
 
         if(!String.valueOf(lang_spin.getSelectedItem()).equals("null") && !String.valueOf(phrase_spin.getSelectedItem()).equals("null")){
             translate_btn.setEnabled(true);
@@ -77,7 +77,7 @@ public class Translate extends AppCompatActivity {
 
     }
 
-    public void translate(View view) {
+    public void translate(View view) {     // when the translate button is clicked, all the selected options are transferred to the next activity
         langToTrans = lang_spin.getSelectedItem().toString();
         phraseToTrans = phrase_spin.getSelectedItem().toString();
         Intent intent = new Intent(Translate.this, Translated.class);

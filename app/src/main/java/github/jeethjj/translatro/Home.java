@@ -18,7 +18,7 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         translate = findViewById(R.id.translate_btn);
-        if(!ConnectivityCheck.isConnected(getApplicationContext())){
+        if(!ConnectivityCheck.isConnected(getApplicationContext())){     // checking the connectivity to limit the activities
             translate.setEnabled(false);
             snackbar = Snackbar.make(findViewById(R.id.home),R.string.noConn,4000);
             snackbar.show();
@@ -28,7 +28,7 @@ public class Home extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart() {     // re-checking the connectivity
         super.onStart();
         if(!ConnectivityCheck.isConnected(getApplicationContext())){
             translate.setEnabled(false);
@@ -40,7 +40,7 @@ public class Home extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume() {     // re-checking the connectivity
         super.onResume();
         if(!ConnectivityCheck.isConnected(getApplicationContext())){
             translate.setEnabled(false);
@@ -51,6 +51,7 @@ public class Home extends AppCompatActivity {
         }
     }
 
+    // navigation to appropriate activities
     public void addPhrase(View view) {
         Intent intend = new Intent(Home.this, Add.class);
         startActivity(intend);
