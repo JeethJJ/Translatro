@@ -11,9 +11,8 @@
     <ListView
         android:id="@+id/list_edit"
         android:layout_width="386dp"
-        android:layout_height="376dp"
+        android:layout_height="340dp"
         android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
         android:divider="@android:color/black"
         android:dividerHeight="1dp"
         app:layout_constraintBottom_toBottomOf="parent"

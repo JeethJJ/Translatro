@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Filtured"
-    android:background="@drawable/bg">
+    android:background="@drawable/bg"
+    android:id="@+id/filtured">
 
     <ListView
         android:id="@+id/saved_translations_list"

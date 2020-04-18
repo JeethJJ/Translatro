@@ -23,6 +23,7 @@ import com.ibm.watson.text_to_speech.v1.TextToSpeech;
 import com.ibm.watson.text_to_speech.v1.model.SynthesizeOptions;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Filtured extends AppCompatActivity {
     String language;
@@ -35,6 +36,7 @@ public class Filtured extends AppCompatActivity {
     private TextToSpeech textService;
     ProgressBar pb;
     Button pron_phrase;
+    Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,9 +138,16 @@ public class Filtured extends AppCompatActivity {
     private class SynthesisTask extends AsyncTask<String, Void, String> {     // running the text to speech in a new thread
         @Override
         protected String doInBackground(String... params) {
-            SynthesizeOptions synthesizeOptions = new SynthesizeOptions.Builder().text(params[0]) .voice(SynthesizeOptions.Voice.EN_US_LISAVOICE) .accept(HttpMediaType.AUDIO_WAV).build();
-            player.playStream(textService.synthesize(synthesizeOptions).execute().getResult());
-            return "Did synthesize";
+            try {
+                SynthesizeOptions synthesizeOptions = new SynthesizeOptions.Builder().text(params[0]).voice(SynthesizeOptions.Voice.EN_US_LISAVOICE).accept(HttpMediaType.AUDIO_WAV).build();
+                player.playStream(textService.synthesize(synthesizeOptions).execute().getResult());
+                return "Did synthesize";
+            }catch (Exception e){
+                snackbar = Snackbar.make(findViewById(R.id.filtured),"Your connection is poor!! Cannot pronounce!",Snackbar.LENGTH_LONG);
+                snackbar.show();
+                return "Didn't synthesize";
+            }
+
         }
         @Override
         protected void onPostExecute(String s) {

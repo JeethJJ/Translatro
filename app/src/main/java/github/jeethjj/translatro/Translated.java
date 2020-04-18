@@ -22,6 +22,8 @@ import com.ibm.watson.language_translator.v3.util.Language;
 import com.ibm.watson.text_to_speech.v1.TextToSpeech;
 import com.ibm.watson.text_to_speech.v1.model.SynthesizeOptions;
 
+import java.util.concurrent.TimeUnit;
+
 public class Translated extends AppCompatActivity {
 
     private LanguageTranslator translationService;
@@ -88,9 +90,20 @@ public class Translated extends AppCompatActivity {
     private class TranslationTask extends AsyncTask<String, Void, String> {     // running the translator in a different thread
         @Override     // if not the app will crash because the translator will take more time end do UI thread might crash
         protected String doInBackground(String... params) {
-            TranslateOptions translateOptions = new TranslateOptions.Builder().addText(params[0]).source(Language.ENGLISH).target(languageKEY).build();
-            TranslationResult result = translationService.translate(translateOptions).execute().getResult();
-            String firstTranslation = result.getTranslations().get(0).getTranslation();
+            String firstTranslation=null;
+            try {
+                TranslateOptions translateOptions = new TranslateOptions.Builder().addText(params[0]).source(Language.ENGLISH).target(languageKEY).build();
+                TranslationResult result = translationService.translate(translateOptions).execute().getResult();
+                firstTranslation = result.getTranslations().get(0).getTranslation();
+            }catch (Exception e){
+                snackbar = Snackbar.make(findViewById(R.id.translated),"Your connection is poor!! Cannot translate!",Snackbar.LENGTH_LONG);
+                snackbar.show();
+                try {
+                    TimeUnit.SECONDS.sleep(4);
+                } catch (InterruptedException ex) {
+                }
+                finish();
+            }
             return firstTranslation;
         }
         @Override
@@ -117,9 +130,16 @@ public class Translated extends AppCompatActivity {
         // if not the ui thread Will crash
         @Override
         protected String doInBackground(String... params) {
-            SynthesizeOptions synthesizeOptions = new SynthesizeOptions.Builder().text(params[0]) .voice(SynthesizeOptions.Voice.EN_US_LISAVOICE) .accept(HttpMediaType.AUDIO_WAV).build();
-            player.playStream(textService.synthesize(synthesizeOptions).execute().getResult());
-            return "Did synthesize";
+            try {
+                SynthesizeOptions synthesizeOptions = new SynthesizeOptions.Builder().text(params[0]).voice(SynthesizeOptions.Voice.EN_US_LISAVOICE).accept(HttpMediaType.AUDIO_WAV).build();
+                player.playStream(textService.synthesize(synthesizeOptions).execute().getResult());
+                return "Did synthesize";
+            }catch (Exception e){
+                snackbar = Snackbar.make(findViewById(R.id.translated),"Your connection is poor!! Cannot pronounce!",Snackbar.LENGTH_LONG);
+                snackbar.show();
+                return "Didn't synthesize";
+            }
+
         }
         @Override
         protected void onPostExecute(String s) {

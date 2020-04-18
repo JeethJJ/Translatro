@@ -15,11 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Filtured" />
+        <activity android:name=".Filtured"
+            android:parentActivityName=".Home"/>
         <activity android:name=".Saved"
             android:parentActivityName=".Home"
             tools:targetApi="jelly_bean" />
-        <activity android:name=".Translated" />
+        <activity android:name=".Translated"
+            android:parentActivityName=".Home"/>
         <activity android:name=".Translate"
             android:parentActivityName=".Home"
             tools:targetApi="jelly_bean" />
